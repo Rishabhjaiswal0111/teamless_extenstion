@@ -52,9 +52,34 @@ function deleteAll(){
 }
 
 saveBtn.addEventListener("click", function(){
-    chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
-        myLeads.push(tabs[0].url)
-        localStorage.setItem("myLeads", JSON.stringify(myLeads) )
-        renderLeads()
-    })
+    getCurrentPageHTML();
 })
+
+function updateLeads(lead) {
+  myLeads = []
+  myLeads.push(lead)
+  localStorage.setItem("myLeads", JSON.stringify(lead) )
+  renderLeads()
+}
+
+function getCurrentPageHTML() {
+  chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+    if (tabs && tabs[0]) {
+      chrome.scripting.executeScript(
+        {
+          target: { tabId: tabs[0].id },
+          function: function () {
+            return document.documentElement.outerHTML;
+          },
+        },
+        (result) => {
+          if (chrome.runtime.lastError) {
+            console.error(chrome.runtime.lastError);
+          } else {
+            updateLeads(result[0].result)
+          }
+        }
+      );
+    }
+  });
+}
