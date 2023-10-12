@@ -55,9 +55,46 @@ saveBtn.addEventListener("click", function(){
     getCurrentPageHTML();
 })
 
+function find_table(document_data){
+    const tempElement = document.createElement("div");
+    tempElement.innerHTML = document_data;
+    const elements = tempElement.getElementsByClassName("data-value");
+    console.log("Inside Find table")
+    // Create an array to store the extracted data
+    const data = [];
+
+    // Loop through the elements and extract their text content
+    for (let i = 0; i < elements.length; i++) {
+    data.push(elements[i].textContent);
+    }
+
+    // Create an HTML table to display the data
+    const table = document.createElement("table");
+    const tbody = document.createElement("tbody");
+
+    // Iterate through the data and create table rows
+    for (let i = 0; i < data.length; i += 5) {
+    const row = document.createElement("tr");
+
+    for (let j = 0; j < 5; j++) {
+        const cell = document.createElement(i === 0 ? "th" : "td");
+        cell.textContent = data[i + j];
+        row.appendChild(cell);
+    }
+
+    tbody.appendChild(row);
+    }
+
+    table.appendChild(tbody);
+
+    // Append the table to the document body or any other desired location
+    document.body.appendChild(table);
+}
+
 function updateLeads(lead) {
   myLeads = []
   myLeads.push(lead)
+  find_table(lead)
   localStorage.setItem("myLeads", JSON.stringify(lead) )
   renderLeads()
 }

@@ -1,10 +1,10 @@
 {
     "manifest_version" : 3,
     "version" : "1",
-    "name" : "Leads Tracker",
+    "name" : "Teamless",
     "action" : {
         "default_popup" : "index.html",
-        "default_icon" : "icon.png"
+        "default_icon" : "gocomet.png"
     },
     "permissions" : ["tabs", "activeTab", "storage", "declarativeContent", "scripting"]
 }
