@@ -56,6 +56,8 @@ function find_table(document_data){
     }
 
     // Create an HTML table to display the data
+    const header = document.createElement("h1")
+    header.textContent = data[0];
     const table = document.createElement("table");
     const tbody = document.createElement("tbody");
 
@@ -85,6 +87,7 @@ function find_table(document_data){
     localStorage.setItem("tracking_data", JSON.stringify(parse_data))
 
     // Append the table to the document body or any other desired location
+    document.body.appendChild(header);
     document.body.appendChild(table);
 }
 
