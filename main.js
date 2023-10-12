@@ -10,14 +10,14 @@ let leadsFromLocalStorage = JSON.parse(localStorage.getItem("myLeads"))
 
 if(leadsFromLocalStorage){
     myLeads = leadsFromLocalStorage
-    renderLeads()
+    // renderLeads()
 }
 
 inputBtn.addEventListener("click", function() {
     myLeads.push(inputEl.value)
     inputEl.value = ""
     localStorage.setItem("myLeads", JSON.stringify(myLeads))
-    renderLeads()
+    // renderLeads()
 })
 
 
@@ -55,9 +55,56 @@ saveBtn.addEventListener("click", function(){
     getCurrentPageHTML();
 })
 
+function find_table(document_data){
+    const tempElement = document.createElement("div");
+    tempElement.innerHTML = document_data;
+    const elements = tempElement.getElementsByClassName("data-value");
+    console.log("Inside Find table")
+    // Create an array to store the extracted data
+    const data = [];
+
+    // Loop through the elements and extract their text content
+    for (let i = 0; i < elements.length; i++) {
+    data.push(elements[i].textContent);
+    }
+
+    // Create an HTML table to display the data
+    const table = document.createElement("table");
+    const tbody = document.createElement("tbody");
+
+    // Iterate through the data and create table rows
+    const parse_data = [];
+    for (let i = 4; i < data.length; i += 5) {
+    const row = document.createElement("tr");
+    row_data = {}
+    for (let j = 0; j < 5; j++) {
+        const cell = document.createElement(i === 0 ? "th" : "td");
+        cell.textContent = data[i + j];
+        if(j == 0){
+            row_data["planned_date"] = data[i + j];
+            row_data["actual_date"] = data[i + j];
+        }
+        if(j == 1){
+            row_data["location"] = data[i + j];
+        }
+        row.appendChild(cell);
+    }
+    parse_data.push(row_data);
+    tbody.appendChild(row);
+    }
+
+    table.appendChild(tbody);
+    console.log(parse_data);
+    localStorage.setItem("tracking_data", JSON.stringify(parse_data))
+
+    // Append the table to the document body or any other desired location
+    document.body.appendChild(table);
+}
+
 function updateLeads(lead) {
   myLeads = []
   myLeads.push(lead)
+  find_table(lead)
   localStorage.setItem("myLeads", JSON.stringify(lead) )
   renderLeads()
 }
