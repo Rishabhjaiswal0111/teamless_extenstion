@@ -22,7 +22,6 @@ function renderLeads(){
             </li>
         `
     }
-
     ulEl.innerHTML = listItems
 }
 
@@ -34,6 +33,10 @@ deleteBtn.addEventListener("click", function(){
 function deleteAll(){
     myLeads = []
     pageDetails = []
+    table = document.getElementById("tracking-details-table")
+    header = document.getElementById("tracking-container-number-header")
+    if (table) { table.remove() }
+    if (header) { header.remove() }
     localStorage.clear()
     renderLeads()
 }
@@ -57,8 +60,10 @@ function find_table(document_data){
 
     // Create an HTML table to display the data
     const header = document.createElement("h1")
+    header.id = "tracking-container-number-header"
     header.textContent = data[0];
     const table = document.createElement("table");
+    table.id = "tracking-details-table";
     const tbody = document.createElement("tbody");
 
     // Iterate through the data and create table rows
@@ -92,8 +97,8 @@ function find_table(document_data){
 }
 
 function updateLeads(lead) {
-    pageDetails = []
-    pageDetails.push(lead)
+  pageDetails = []
+  pageDetails.push(lead)
   find_table(lead)
   localStorage.setItem("myLeads", JSON.stringify(pageDetails) )
   renderLeads()
