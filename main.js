@@ -1,7 +1,8 @@
 let myLeads = []
+let pageDetails = []
 
-const inputEl = document.getElementById("input-el")
-const inputBtn = document.getElementById("input-btn")
+// const inputEl = document.getElementById("input-el")
+// const inputBtn = document.getElementById("input-btn")
 const ulEl = document.getElementById("ul-el")
 const deleteBtn = document.getElementById("delete-btn")
 const saveBtn = document.getElementById("save-btn")
@@ -9,25 +10,10 @@ const saveBtn = document.getElementById("save-btn")
 let leadsFromLocalStorage = JSON.parse(localStorage.getItem("myLeads"))
 
 if(leadsFromLocalStorage){
-    myLeads = leadsFromLocalStorage
-    // renderLeads()
+    updateLeads(leadsFromLocalStorage)
 }
 
-inputBtn.addEventListener("click", function() {
-    myLeads.push(inputEl.value)
-    inputEl.value = ""
-    localStorage.setItem("myLeads", JSON.stringify(myLeads))
-    // renderLeads()
-})
-
-
-
 function renderLeads(){
-    // const li = document.createElement("li")
-    // li.innerHTML = "<a target = '_blank' href = https://" + myLeads[myLeads.length - 1] + ">" + myLeads[myLeads.length - 1] + "</a>"
-    // ulEl.append(li)
-
-
     let listItems = ""
     for(let i = 0; i < myLeads.length; i++){
         listItems += `
@@ -36,17 +22,18 @@ function renderLeads(){
             </li>
         `
     }
-    
+
     ulEl.innerHTML = listItems
-    
 }
 
 deleteBtn.addEventListener("click", function(){
     deleteAll()
+    renderLeads()
 })
 
 function deleteAll(){
     myLeads = []
+    pageDetails = []
     localStorage.clear()
     renderLeads()
 }
@@ -102,10 +89,10 @@ function find_table(document_data){
 }
 
 function updateLeads(lead) {
-  myLeads = []
-  myLeads.push(lead)
+    pageDetails = []
+    pageDetails.push(lead)
   find_table(lead)
-  localStorage.setItem("myLeads", JSON.stringify(lead) )
+  localStorage.setItem("myLeads", JSON.stringify(pageDetails) )
   renderLeads()
 }
 
